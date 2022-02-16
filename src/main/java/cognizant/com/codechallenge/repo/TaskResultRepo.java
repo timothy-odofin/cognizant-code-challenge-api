@@ -1,6 +1,6 @@
 package cognizant.com.codechallenge.repo;
 
-import cognizant.com.task.model.TaskResult;
+import cognizant.com.codechallenge.model.TaskResult;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.PagingAndSortingRepository;
 import org.springframework.data.repository.query.Param;

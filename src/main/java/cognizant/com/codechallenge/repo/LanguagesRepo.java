@@ -1,6 +1,6 @@
 package cognizant.com.codechallenge.repo;
 
-import cognizant.com.task.model.Languages;
+import cognizant.com.codechallenge.model.Languages;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 
