@@ -85,19 +85,16 @@ public class CompilerServiceImpl implements CompilerService {
     }
 
     /**
-     *
-     * @param payload
-     * Validate that task exists
-     * Reject multiple attempts for a given task
-     * Process the payload and send to online compiler
+     * @param payload Validate that task exists
+     *                Reject multiple attempts for a given task
+     *                Process the payload and send to online compiler
      * @return SubmissionOutcome when task processed successfully
-     *
      */
     @Override
     public ResponseEntity executeScript(CompileUiPayload payload) {
         try {
-            Optional<Languages> languagesOptional=languagesRepo.findByName(payload.getLanguage());
-            if(languagesOptional.isEmpty())
+            Optional<Languages> languagesOptional = languagesRepo.findByName(payload.getLanguage());
+            if (languagesOptional.isEmpty())
                 return ResponseEntity.ok(new ApiResultSet<>(FAILED, NOT_FOUND, LANGUAGE_NOT_SUPPORTED));
             Optional<Tasks> tasksOptional = findTask(payload.getTaskId());
             if (tasksOptional.isEmpty())
@@ -106,12 +103,12 @@ public class CompilerServiceImpl implements CompilerService {
             if (taskResultOptional.isPresent())
                 return ResponseEntity.ok(new ApiResultSet<>(FAILED, TASK_DONE, TEST_ALREADY_TAKEN));
             Tasks tasks = tasksOptional.get();
-            TaskResult  userResult =new TaskResult();
+            TaskResult userResult = new TaskResult();
             userResult.setStartTime(new Date());
             userResult.setTasks(tasks);
             userResult.setExpectedOutput(tasks.getOutput_param());
 
-            userResult=taskResultRepo.save(userResult);
+            userResult = taskResultRepo.save(userResult);
             Languages languages = languagesOptional.get();
             CompilerRequest load = Mapper.convertObject(payload, CompilerRequest.class);
             load.setClientSecret(CLIENT_SECRET);
@@ -135,7 +132,7 @@ public class CompilerServiceImpl implements CompilerService {
             return ResponseEntity.ok(new ApiResultSet<>(SUCCESS, OKAY,
                     Mapper.convertList(userList.getContent(), TaskResponse.class)));
         } catch (Exception e) {
-            return ResponseEntity.ok(new ApiResultSet<>(FAILED, INTERNAL_SERVER_ERROR,ERROR));
+            return ResponseEntity.ok(new ApiResultSet<>(FAILED, INTERNAL_SERVER_ERROR, ERROR));
         }
     }
 
@@ -144,38 +141,37 @@ public class CompilerServiceImpl implements CompilerService {
         try {
             List<Languages> languagesList = languagesRepo.list();
             return ResponseEntity.ok(new ApiResultSet<>(SUCCESS, OKAY,
-                    Mapper.convertList(languagesList,Language.class)));
+                    Mapper.convertList(languagesList, Language.class)));
         } catch (Exception e) {
-            return ResponseEntity.ok(new ApiResultSet<>(FAILED, INTERNAL_SERVER_ERROR,ERROR));
+            return ResponseEntity.ok(new ApiResultSet<>(FAILED, INTERNAL_SERVER_ERROR, ERROR));
         }
     }
 
     @Override
     public ResponseEntity listTopThreeSuccess() {
         try {
-            List<VwTaskResult> resultSet =vwTaskResultRepo.listTopThree();
-            if(resultSet.isEmpty())
+            List<VwTaskResult> resultSet = vwTaskResultRepo.listTopThree();
+            if (resultSet.isEmpty())
                 return ResponseEntity.ok(new ApiResultSet<>(FAILED, NOT_FOUND,
                         RECORD_NOT_FOUND));
             List<TaskReportResponse> reports = new ArrayList<>();
-            resultSet.forEach(rs->{
+            resultSet.forEach(rs -> {
                 TaskReportResponse report = new TaskReportResponse();
                 report.setSuccessCount(rs.getSuccessCount());
                 report.setUsername(rs.getUsername());
-                String tasks =taskResultRepo.listTaskNameByUsername(rs.getUsername(),SUCCESS).stream()
-                        .filter(name->name !=null && !name.isEmpty()).collect(Collectors.joining(","));
+                String tasks = taskResultRepo.listTaskNameByUsername(rs.getUsername(), SUCCESS).stream()
+                        .filter(name -> name != null && !name.isEmpty()).collect(Collectors.joining(","));
                 report.setTasks(tasks);
                 reports.add(report);
             });
             return ResponseEntity.ok(new ApiResultSet<>(SUCCESS, OKAY,
                     reports));
         } catch (Exception e) {
-            return ResponseEntity.ok(new ApiResultSet<>(FAILED, INTERNAL_SERVER_ERROR,ERROR));
+            return ResponseEntity.ok(new ApiResultSet<>(FAILED, INTERNAL_SERVER_ERROR, ERROR));
         }
     }
 
     /**
-     *
      * @param result
      * @param uiPayload
      * @param compilerResponse
@@ -185,9 +181,9 @@ public class CompilerServiceImpl implements CompilerService {
      * @throws JsonProcessingException
      */
     private ResponseEntity saveTaskResult(TaskResult result, CompileUiPayload uiPayload, CompilerResponse compilerResponse) throws JsonProcessingException {
-        if (compilerResponse.getError() != null || compilerResponse.getStatusCode() !=200) {
+        if (compilerResponse.getError() != null || compilerResponse.getStatusCode() != 200) {
             taskResultRepo.delete(result);
-            return ResponseEntity.ok(new ApiResultSet<>(FAILED, BAD_REQUEST, compilerResponse.getError()==null?compilerResponse.getOutput(): compilerResponse.getError()));
+            return ResponseEntity.ok(new ApiResultSet<>(FAILED, BAD_REQUEST, compilerResponse.getError() == null ? compilerResponse.getOutput() : compilerResponse.getError()));
         }
         result.setOutput(compilerResponse.getOutput());
         result.setCpuTime(compilerResponse.getCpuTime());
@@ -196,7 +192,7 @@ public class CompilerServiceImpl implements CompilerService {
         result.setUsername(uiPayload.getUsername());
         result.setSubmittedPayload(Utils.getMapper().writeValueAsString(uiPayload));
         result.setStatusCode(compilerResponse.getStatusCode());
-        result.setRemark(result.getExpectedOutput().equals(result.getOutput())?PASSED:FAILED);
+        result.setRemark(result.getExpectedOutput().equals(result.getOutput()) ? PASSED : FAILED);
         taskResultRepo.save(result);
         return ResponseEntity.ok(new ApiResultSet<>(SUCCESS, OKAY,
                 new SubmissionOutcome(result.getExpectedOutput(), result.getOutput(), result.getRemark())));

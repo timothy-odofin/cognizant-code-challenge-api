@@ -14,21 +14,24 @@ import static cognizant.com.codechallenge.utils.AppConstants.*;
 @RequestMapping("/api")
 public class AppRoute {
     @Autowired
-    private  CompilerService compilerService;
+    private CompilerService compilerService;
 
     @PostMapping("/script/execute")
-    public ResponseEntity executeScript(@Valid @RequestBody CompileUiPayload payload){
+    public ResponseEntity executeScript(@Valid @RequestBody CompileUiPayload payload) {
         return compilerService.executeScript(payload);
     }
+
     @GetMapping("/script/languages")
     public ResponseEntity listLanguage() {
         return compilerService.listLanguage();
     }
+
     @GetMapping("/task/list")
-    public ResponseEntity listPaginatedTask(@RequestParam(value=PAGE_PARAM, defaultValue = PAGE) int page,
-                                            @RequestParam(value=SIZE_PARAM, defaultValue = SIZE) int size) {
-        return compilerService.listPaginatedTask(page,size);
+    public ResponseEntity listPaginatedTask(@RequestParam(value = PAGE_PARAM, defaultValue = PAGE) int page,
+                                            @RequestParam(value = SIZE_PARAM, defaultValue = SIZE) int size) {
+        return compilerService.listPaginatedTask(page, size);
     }
+
     @GetMapping("/task/report")
     public ResponseEntity listTopThreeSuccess() {
         return compilerService.listTopThreeSuccess();

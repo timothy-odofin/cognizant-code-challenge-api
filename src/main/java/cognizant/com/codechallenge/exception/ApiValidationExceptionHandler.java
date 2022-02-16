@@ -1,4 +1,5 @@
 package cognizant.com.codechallenge.exception;
+
 import cognizant.com.codechallenge.dto.exception.ApiErrorsView;
 import cognizant.com.codechallenge.dto.exception.ApiFieldError;
 import cognizant.com.codechallenge.dto.exception.ApiGlobalError;
@@ -33,7 +34,7 @@ public class ApiValidationExceptionHandler extends ResponseEntityExceptionHandle
                 .map(fieldError -> new ApiFieldError(
                         fieldError.getField(),
                         fieldError.getCode(),
-                        fieldError.getRejectedValue(),fieldError.getDefaultMessage())
+                        fieldError.getRejectedValue(), fieldError.getDefaultMessage())
                 )
                 .collect(toList());
 
