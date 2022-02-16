@@ -25,6 +25,14 @@ These are the steps to follow in order to run the application
 ### To run in development
 
 ```cmd
+Download, install and configure Java Runtime Environment see-> https://www.oracle.com/java/technologies/downloads/
+```
+
+```cmd
+Download, install and configure Apache maven see-> https://maven.apache.org/download.cgi
+```
+
+```cmd
 mvn clean spring-boot:run
 ```
 
