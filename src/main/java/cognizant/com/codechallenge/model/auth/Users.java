@@ -10,6 +10,7 @@ import lombok.Data;
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.Date;
+import java.util.List;
 
 /**
  * @author JIDEX
@@ -36,6 +37,8 @@ public class Users implements Serializable {
     @Column(name = "date_created")
     @Temporal(TemporalType.TIMESTAMP)
     private Date dateCreated;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "role_id")
+    private List<RoleUser> roleUsers;
 
     public Users() {
     }

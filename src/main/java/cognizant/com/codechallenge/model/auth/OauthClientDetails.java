@@ -62,6 +62,7 @@ public class OauthClientDetails implements Serializable {
     private String autoapprove;
 
     public OauthClientDetails() {
+
     }
 
     public OauthClientDetails(String clientId) {

@@ -9,5 +9,8 @@ public class ApiMessages {
     public static final String TASK_NOT_FOUND="Task with specified constraint not found";
     public static final String LANGUAGE_NOT_SUPPORTED="Selected language not supported";
     public static final String TEST_ALREADY_TAKEN="You've already taken this task, kindly try another task. Thank you";
+    public final static String RECORD_EXISTS = "Oops, username already in use. Please try again using another username";
+    public final static String ACCOUNT_CREATED = "Awesome, your account is now active, please login to proceed";
+    public static final String INVALID_ENTRY="%s is required, kindly provide correct data";
 
 }

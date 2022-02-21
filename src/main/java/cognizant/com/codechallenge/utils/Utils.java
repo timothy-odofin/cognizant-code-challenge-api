@@ -16,6 +16,7 @@ import java.lang.reflect.Type;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.Date;
+import java.util.UUID;
 
 import static cognizant.com.codechallenge.utils.UnixEpochDateTypeAdapter.getUnixEpochDateTypeAdapter;
 
@@ -33,7 +34,9 @@ public class Utils {
      codeStore.append(methodName).append("(");
      return getMapper().writeValueAsString(codeStore);
     }
-
+public static String getClientId(){
+        return UUID.randomUUID().toString();
+}
     public static Type getCompilerConversionTyper() {
         Type types = new TypeToken<CompilerResponse>() {
         }.getType();
