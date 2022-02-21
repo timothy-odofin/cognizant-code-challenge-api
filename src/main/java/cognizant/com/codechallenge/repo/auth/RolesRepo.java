@@ -10,7 +10,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 /**
  *
- * @author Nandom Gusen
+ * @author JIDEX
  */
 public interface RolesRepo extends JpaRepository<Roles, Integer>{
     
