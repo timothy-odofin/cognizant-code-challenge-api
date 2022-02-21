@@ -1,17 +1,16 @@
 package cognizant.com.codechallenge.route;
 
-import cognizant.com.codechallenge.dto.CompileUiPayload;
 import cognizant.com.codechallenge.dto.user.Login;
 import cognizant.com.codechallenge.dto.user.SignUp;
-import cognizant.com.codechallenge.service.CompilerService;
 import cognizant.com.codechallenge.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 import javax.validation.Valid;
-
-import static cognizant.com.codechallenge.utils.AppConstants.*;
 
 @RestController
 @RequestMapping("/entrance")

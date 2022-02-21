@@ -1,13 +1,11 @@
 package cognizant.com.codechallenge.serviceimpl;
 
 import cognizant.com.codechallenge.dto.ApiResultSet;
-import cognizant.com.codechallenge.dto.Language;
 import cognizant.com.codechallenge.dto.user.AuthTokenInfo;
 import cognizant.com.codechallenge.dto.user.Login;
 import cognizant.com.codechallenge.dto.user.SignUp;
 import cognizant.com.codechallenge.dto.user.UserResponse;
 import cognizant.com.codechallenge.mapper.Mapper;
-import cognizant.com.codechallenge.model.Languages;
 import cognizant.com.codechallenge.model.auth.OauthClientDetails;
 import cognizant.com.codechallenge.model.auth.RoleUser;
 import cognizant.com.codechallenge.model.auth.Roles;
@@ -17,7 +15,6 @@ import cognizant.com.codechallenge.repo.auth.RoleUserRepo;
 import cognizant.com.codechallenge.repo.auth.UsersRepo;
 import cognizant.com.codechallenge.service.UserService;
 import cognizant.com.codechallenge.utils.Utils;
-import com.google.gson.Gson;
 import lombok.extern.slf4j.Slf4j;
 import org.jvnet.hk2.annotations.Service;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,7 +28,6 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.client.RestTemplate;
 
 import java.util.Date;
-import java.util.List;
 import java.util.Optional;
 
 import static cognizant.com.codechallenge.utils.ApiMessages.*;
@@ -39,6 +35,8 @@ import static cognizant.com.codechallenge.utils.ApiResponseCode.*;
 import static cognizant.com.codechallenge.utils.AppConstants.RESOURCE_ID;
 import static cognizant.com.codechallenge.utils.Utils.getGson;
 import static cognizant.com.codechallenge.utils.Utils.getHeadersWithClientCredentials;
+import static cognizant.com.codechallenge.validation.AppValidation.validateSignUp;
+import static cognizant.com.codechallenge.validation.AppValidation.validateLogin;
 
 @Service
 @Slf4j
@@ -64,7 +62,7 @@ public class UserServiceImpl implements UserService {
     @Transactional(propagation = Propagation.REQUIRES_NEW)
     public ResponseEntity signUp(SignUp signUpPayload) {
         try {
-            String invalidRecord = validate(signUpPayload);
+            String invalidRecord = validateSignUp(signUpPayload);
             if (invalidRecord != null && !invalidRecord.isEmpty())
                 return ResponseEntity.ok(new ApiResultSet<>(SUCCESS, BAD_REQUEST,
                         invalidRecord));
@@ -96,28 +94,6 @@ public class UserServiceImpl implements UserService {
         roleUser.setDateCreated(new Date());
         oauthClientDetailsRepo.save(oauthClientDetails);
         roleUserRepo.save(roleUser);
-    }
-
-    private String validate(SignUp payload) {
-        if (payload.getUsername() == null || payload.getUsername().trim().isEmpty())
-            return String.format(INVALID_ENTRY, "Username");
-        else if (payload.getName() == null || payload.getName().trim().isEmpty())
-            return String.format(INVALID_ENTRY, "Name");
-        else if (payload.getPassword() == null || payload.getPassword().trim().isEmpty())
-            return String.format(INVALID_ENTRY, "Password");
-        else
-            return null;
-
-    }
-
-    private String validateLogin(Login payload) {
-        if (payload.getUsername() == null || payload.getUsername().trim().isEmpty())
-            return String.format(INVALID_ENTRY, "Username");
-        else if (payload.getPassword() == null || payload.getPassword().trim().isEmpty())
-            return String.format(INVALID_ENTRY, "Password");
-        else
-            return null;
-
     }
 
     @Override
