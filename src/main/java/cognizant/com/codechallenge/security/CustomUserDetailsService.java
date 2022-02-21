@@ -14,13 +14,13 @@ import java.util.Optional;
 public class CustomUserDetailsService implements UserDetailsService {
 
     @Autowired
-    private UsersRepo accountsRepo;
+    private UsersRepo usersRepo;
     @Autowired
-    RoleUserRepo roleuserRepo;
+   private RoleUserRepo roleuserRepo;
 
     @Override
     public UserDetails loadUserByUsername(String userName) throws UsernameNotFoundException {
-        Optional<Users> user = accountsRepo.findByUsername(userName);
+        Optional<Users> user = usersRepo.findByUsername(userName);
         if (user.isEmpty()) {
             throw new UsernameNotFoundException("UserName " + userName + " not found");
         }
