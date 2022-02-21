@@ -12,6 +12,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
  *
  * @author JIDEX
  */
-public interface OauthClientDetailsRepository extends JpaRepository<OauthClientDetails, Long> {
+public interface OauthClientDetailsRepo extends JpaRepository<OauthClientDetails, Long> {
 OauthClientDetails findByClientId(String clientId);
 }
