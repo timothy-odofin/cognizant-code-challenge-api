@@ -24,10 +24,13 @@ public class Users implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
     @Column(name = "id")
-    private Integer id;
-
+    private Long id;
     @Column(name = "name")
     private String name;
+    @Column(name = "password")
+    private String password;
+    @Column(name = "username")
+    private String username;
     @Column(name = "client_id")
     private String clientId;
     @Column(name = "date_created")
@@ -37,7 +40,7 @@ public class Users implements Serializable {
     public Users() {
     }
 
-    public Users(Integer id) {
+    public Users(Long id) {
         this.id = id;
     }
 
