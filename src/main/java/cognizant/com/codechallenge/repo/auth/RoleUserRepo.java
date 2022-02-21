@@ -3,9 +3,9 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package cognizant.com.codechallenge.repo;
+package cognizant.com.codechallenge.repo.auth;
 
-import cognizant.com.codechallenge.model.RoleUser;
+import cognizant.com.codechallenge.model.auth.RoleUser;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 

@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package cognizant.com.codechallenge.model;
+package cognizant.com.codechallenge.model.auth;
 
 import lombok.Data;
 
@@ -17,7 +17,7 @@ import java.util.Date;
 @Entity
 @Data
 @Table(name = "roles")
-public class Users implements Serializable {
+public class Roles implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @Id
@@ -25,19 +25,24 @@ public class Users implements Serializable {
     @Basic(optional = false)
     @Column(name = "id")
     private Integer id;
-
     @Column(name = "name")
     private String name;
-    @Column(name = "client_id")
-    private String clientId;
     @Column(name = "date_created")
     @Temporal(TemporalType.TIMESTAMP)
     private Date dateCreated;
 
-    public Users() {
+    public Roles() {
     }
 
-    public Users(Integer id) {
+    public Roles(Integer id) {
+        this.id = id;
+    }
+
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
         this.id = id;
     }
 
@@ -51,10 +56,10 @@ public class Users implements Serializable {
     @Override
     public boolean equals(Object object) {
         // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof Users)) {
+        if (!(object instanceof Roles)) {
             return false;
         }
-        Users other = (Users) object;
+        Roles other = (Roles) object;
         if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
             return false;
         }

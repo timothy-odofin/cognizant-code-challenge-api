@@ -3,13 +3,10 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package cognizant.com.codechallenge.repo;
+package cognizant.com.codechallenge.repo.auth;
 
-import cognizant.com.codechallenge.model.OauthClientDetails;
+import cognizant.com.codechallenge.model.auth.OauthClientDetails;
 import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.data.jpa.repository.Modifying;
-import org.springframework.data.jpa.repository.Query;
-import org.springframework.transaction.annotation.Transactional;
 
 /**
  *

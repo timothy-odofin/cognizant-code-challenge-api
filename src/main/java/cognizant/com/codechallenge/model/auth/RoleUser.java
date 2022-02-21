@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package cognizant.com.codechallenge.model;
+package cognizant.com.codechallenge.model.auth;
 
 import lombok.Data;
 
