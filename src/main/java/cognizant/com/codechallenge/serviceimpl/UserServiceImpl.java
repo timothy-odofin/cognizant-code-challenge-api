@@ -1,10 +1,7 @@
 package cognizant.com.codechallenge.serviceimpl;
 
 import cognizant.com.codechallenge.dto.ApiResultSet;
-import cognizant.com.codechallenge.dto.user.AuthTokenInfo;
-import cognizant.com.codechallenge.dto.user.Login;
-import cognizant.com.codechallenge.dto.user.SignUp;
-import cognizant.com.codechallenge.dto.user.UserResponse;
+import cognizant.com.codechallenge.dto.user.*;
 import cognizant.com.codechallenge.mapper.Mapper;
 import cognizant.com.codechallenge.model.auth.OauthClientDetails;
 import cognizant.com.codechallenge.model.auth.RoleUser;
@@ -86,7 +83,9 @@ public class UserServiceImpl implements UserService {
         oauthClientDetails.setClientId(user.getClientId());
         oauthClientDetails.setClientSecret(user.getPassword());
         oauthClientDetails.setAccessTokenValidity(ONE_DAY);
-        oauthClientDetails.setAuthorities("USER");
+        oauthClientDetails.setAuthorities("");
+        oauthClientDetails.setAuthorizedGrantTypes("password,refresh_token");
+        oauthClientDetails.setScope("read,write,trust");
         oauthClientDetails.setResourceIds(RESOURCE_ID);
         RoleUser roleUser = new RoleUser();
         roleUser.setUserId(user);
@@ -112,7 +111,8 @@ public class UserServiceImpl implements UserService {
                 return ResponseEntity.ok(new ApiResultSet<>(FAILED, NOT_FOUND,
                         INVALID_USER));
             UserResponse userResponse = Mapper.convertObject(loginUser, UserResponse.class);
-            userResponse.setTokenInfo(obtainAccessToken(loginPayload));
+
+            userResponse.setTokenInfo(obtainAccessToken(new TokenRequest(loginPayload.getUsername(),loginPayload.getPassword(), loginUser.getClientId())));
             return ResponseEntity.ok(new ApiResultSet<>(SUCCESS, OKAY,
                     userResponse));
         } catch (Exception e) {
@@ -122,10 +122,9 @@ public class UserServiceImpl implements UserService {
     }
 
 
-    private AuthTokenInfo obtainAccessToken(Login login) {
+    private AuthTokenInfo obtainAccessToken(TokenRequest login) {
         String url = CLIENT_URL + TOKEN_URL + "?grant_type=password&username=" + login.getUsername() + "&password=" + login.getPassword() + "";
-        HttpEntity<String> request = new HttpEntity<>(getHeadersWithClientCredentials(login.getUsername(), login.getPassword()));
-
+        HttpEntity<String> request = new HttpEntity<>(getHeadersWithClientCredentials(login.getClientId(), login.getPassword()));
         ResponseEntity<String> response = restTemplate.exchange(url, HttpMethod.POST, request, String.class);
 
         AuthTokenInfo token = getGson().fromJson(response.getBody(), AuthTokenInfo.class);
