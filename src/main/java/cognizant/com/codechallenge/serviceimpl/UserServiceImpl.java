@@ -63,11 +63,11 @@ public class UserServiceImpl implements UserService {
         try {
             String invalidRecord = validateSignUp(signUpPayload);
             if (invalidRecord != null && !invalidRecord.isEmpty())
-                return ResponseEntity.ok(new ApiResultSet<>(SUCCESS, BAD_REQUEST,
+                return ResponseEntity.ok(new ApiResultSet<>(FAILED, BAD_REQUEST,
                         invalidRecord));
             Optional<Users> usersOptional = usersRepo.findByUsername(signUpPayload.getUsername());
             if (usersOptional.isPresent())
-                return ResponseEntity.ok(new ApiResultSet<>(SUCCESS, TASK_DONE,
+                return ResponseEntity.ok(new ApiResultSet<>(FAILED, TASK_DONE,
                         RECORD_EXISTS));
             Users user = Mapper.convertObject(signUpPayload, Users.class);
             user.setClientId(Utils.getClientId());
@@ -100,15 +100,15 @@ public class UserServiceImpl implements UserService {
         try {
             String invalidRecord = validateLogin(loginPayload);
             if (invalidRecord != null && !invalidRecord.isEmpty())
-                return ResponseEntity.ok(new ApiResultSet<>(SUCCESS, BAD_REQUEST,
+                return ResponseEntity.ok(new ApiResultSet<>(FAILED, BAD_REQUEST,
                         invalidRecord));
             Optional<Users> usersOptional = usersRepo.findByUsername(loginPayload.getUsername());
             if (usersOptional.isEmpty())
-                return ResponseEntity.ok(new ApiResultSet<>(SUCCESS, NOT_FOUND,
+                return ResponseEntity.ok(new ApiResultSet<>(FAILED, NOT_FOUND,
                         USER_NOT_FOUND));
             Users loginUser = usersOptional.get();
             if (!passwordEncoder.matches(loginPayload.getPassword(), loginUser.getPassword()))
-                return ResponseEntity.ok(new ApiResultSet<>(SUCCESS, NOT_FOUND,
+                return ResponseEntity.ok(new ApiResultSet<>(FAILED, NOT_FOUND,
                         INVALID_USER));
             UserResponse userResponse = Mapper.convertObject(loginUser, UserResponse.class);
             userResponse.setTokenInfo(obtainAccessToken(loginPayload));
