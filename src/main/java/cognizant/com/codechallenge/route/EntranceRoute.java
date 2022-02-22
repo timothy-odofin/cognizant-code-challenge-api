@@ -17,7 +17,6 @@ import javax.validation.Valid;
 public class EntranceRoute {
     @Autowired
     private UserService userService;
-
     @PostMapping("/signin")
     public ResponseEntity login(@Valid @RequestBody Login payload) {
         return userService.login(payload);

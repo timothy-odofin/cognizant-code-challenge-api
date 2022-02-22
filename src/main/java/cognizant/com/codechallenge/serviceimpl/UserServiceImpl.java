@@ -16,7 +16,7 @@ import cognizant.com.codechallenge.repo.auth.UsersRepo;
 import cognizant.com.codechallenge.service.UserService;
 import cognizant.com.codechallenge.utils.Utils;
 import lombok.extern.slf4j.Slf4j;
-import org.jvnet.hk2.annotations.Service;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpEntity;
@@ -37,9 +37,8 @@ import static cognizant.com.codechallenge.utils.Utils.getGson;
 import static cognizant.com.codechallenge.utils.Utils.getHeadersWithClientCredentials;
 import static cognizant.com.codechallenge.validation.AppValidation.validateSignUp;
 import static cognizant.com.codechallenge.validation.AppValidation.validateLogin;
-
+import org.springframework.stereotype.Service;
 @Service
-@Slf4j
 public class UserServiceImpl implements UserService {
 
     @Autowired

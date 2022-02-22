@@ -16,7 +16,6 @@ public class AppValidation {
             return String.format(INVALID_ENTRY, "Password");
         else
             return null;
-
     }
 
   public  static String validateLogin(Login payload) {
