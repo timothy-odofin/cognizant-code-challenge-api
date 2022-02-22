@@ -167,7 +167,7 @@ public class CompilerServiceImpl implements CompilerService {
             return ResponseEntity.ok(new ApiResultSet<>(SUCCESS, OKAY,
                     reports));
         } catch (Exception e) {
-            return ResponseEntity.ok(new ApiResultSet<>(FAILED, INTERNAL_SERVER_ERROR, ERROR));
+            return ResponseEntity.ok(new ApiResultSet<>(FAILED, INTERNAL_SERVER_ERROR, COMPLIATION_FAILED));
         }
     }
 
@@ -181,7 +181,7 @@ public class CompilerServiceImpl implements CompilerService {
      * @throws JsonProcessingException
      */
     private ResponseEntity saveTaskResult(TaskResult result, CompileUiPayload uiPayload, CompilerResponse compilerResponse) throws JsonProcessingException {
-        if (compilerResponse.getError() != null || compilerResponse.getStatusCode() != 200) {
+        if ((compilerResponse !=null && compilerResponse.getOutput().toLowerCase().contains("error"))||compilerResponse.getError() != null || compilerResponse.getStatusCode() != 200) {
             taskResultRepo.delete(result);
             return ResponseEntity.ok(new ApiResultSet<>(FAILED, BAD_REQUEST, compilerResponse.getError() == null ? compilerResponse.getOutput() : compilerResponse.getError()));
         }
