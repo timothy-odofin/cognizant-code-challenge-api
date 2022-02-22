@@ -13,5 +13,5 @@ public class ApiMessages {
     public final static String ACCOUNT_CREATED = "Awesome, your account is now active, please login to proceed";
     public static final String INVALID_ENTRY="%s is required, kindly provide correct data";
     public final static String INVALID_USER = "Oops, either username/password is incorrect. Kindly check and try again please";
-
+public final static String USER_NOT_FOUND="User with specified constraints not found";
 }

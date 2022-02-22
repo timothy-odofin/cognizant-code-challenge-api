@@ -105,7 +105,7 @@ public class UserServiceImpl implements UserService {
             Optional<Users> usersOptional = usersRepo.findByUsername(loginPayload.getUsername());
             if (usersOptional.isEmpty())
                 return ResponseEntity.ok(new ApiResultSet<>(SUCCESS, NOT_FOUND,
-                        RECORD_NOT_FOUND));
+                        USER_NOT_FOUND));
             Users loginUser = usersOptional.get();
             if (!passwordEncoder.matches(loginPayload.getPassword(), loginUser.getPassword()))
                 return ResponseEntity.ok(new ApiResultSet<>(SUCCESS, NOT_FOUND,

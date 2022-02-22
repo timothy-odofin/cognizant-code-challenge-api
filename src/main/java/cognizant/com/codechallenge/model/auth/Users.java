@@ -17,7 +17,7 @@ import java.util.List;
  */
 @Entity
 @Data
-@Table(name = "roles")
+@Table(name = "users")
 public class Users implements Serializable {
 
     private static final long serialVersionUID = 1L;
