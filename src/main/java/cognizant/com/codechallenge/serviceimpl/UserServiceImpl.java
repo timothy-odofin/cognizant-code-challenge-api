@@ -72,6 +72,7 @@ public class UserServiceImpl implements UserService {
             Users user = Mapper.convertObject(signUpPayload, Users.class);
             user.setClientId(Utils.getClientId());
             user.setPassword(passwordEncoder.encode(signUpPayload.getPassword()));
+            user.setDateCreated(new Date());
             setUpAccount(usersRepo.save(user));
             return ResponseEntity.ok(new ApiResultSet<>(SUCCESS, OKAY,
                     ACCOUNT_CREATED));
@@ -115,6 +116,7 @@ public class UserServiceImpl implements UserService {
             return ResponseEntity.ok(new ApiResultSet<>(SUCCESS, OKAY,
                     userResponse));
         } catch (Exception e) {
+            e.printStackTrace();
             return ResponseEntity.ok(new ApiResultSet<>(FAILED, INTERNAL_SERVER_ERROR, ERROR));
         }
     }
